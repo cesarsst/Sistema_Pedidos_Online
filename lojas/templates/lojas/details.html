@@ -1,0 +1,36 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block content %}
+
+
+
+{% if user.is_authenticated %}
+<h1 class="mt-5">Cardápio</h1>
+
+<center>
+    <div class="container-fluid">
+        <div class="row mt-5">
+            {% for pratos in cardapios %}
+            <div class="col">
+              <div class="card" style="width: 10rem;">
+                {% if prato.image %}
+                    <a href=""> <img class="card-img-top" src="{{ prato.image.url }}"> </a>
+                {% else %}
+                    <a href=""><img class="card-img-top" src="{% static 'img/default.png' %}"></a>
+                {% endif %}
+                <div class="card-body">
+                  <h5 class="card-title">{{ prato.nome }}</h5>
+                            <p class="card-text">{{ prato.descricao|truncatechars:50 }}...</p>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</center>
+
+{% else %}
+    <h5>Você precisa logar antes de acessar essa página!</h5>
+{% endif %}
+
+{% endblock %}

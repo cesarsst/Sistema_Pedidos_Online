@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <title>{% block title %}TaxaZero - Delivary{% endblock %}</title>
+  </head>
+  <body>
+  <container>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
+        <a class="navbar-brand" href="#">FoodProject</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav">
+
+            <li class="nav-item active">
+                <a class="nav-link" href="{% url 'home' %}"> Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'index_lojas' %}">Lojas</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'contato' %}">Contato</a>
+            </li>
+            </ul>
+
+            <ul class="navbar-nav flex-row ml-md-auto d-none d-md-flex">
+                <li>
+                    {% if user.is_authenticated %}
+                        USER: {{ user.email }}
+                        <a href="{% url 'logout' %}"><button type="button" class="btn btn-primary">Deslogar</button></a>
+                        <a href="{% url 'password_reset' %}"><button type="button" class="btn btn-primary">Reset Password</button></a>
+                    {% endif %}
+                </li>
+            </ul>
+
+        </div>
+    </nav>
+    </container>
+    {% block content %}
+    
+    {% endblock %}
+
+    <!-- Footer -->
+  <footer class="fixed">
+        <div class="container mt-5">
+        <center>
+          <div class="row">
+            <div class="col-md-4">
+              <span class="copyright">Copyright &copy; Dev Data 2019</span>
+            </div>
+        <div class="col-md-4">
+              <ul class="list-inline social-buttons">
+                <li class="list-inline-item">
+                  <a href="#">
+                    <i class="fab fa-twitter"></i>
+                  </a>
+                </li>
+                <li class="list-inline-item">
+                  <a href="#">
+                    <i class="fab fa-facebook-f"></i>
+                  </a>
+                </li>
+                <li class="list-inline-item">
+                  <a href="#">
+                    <i class="fab fa-linkedin-in"></i>
+                  </a>
+                </li>
+              </ul>
+            </div>
+                <div class="col-md-4">
+              <ul class="list-inline quicklinks">
+                <li class="list-inline-item">
+                  <a href="#">Privacy Policy</a>
+                </li>
+                <li class="list-inline-item">
+                  <a href="#">Terms of Use</a>
+                </li>
+              </ul>
+                </div>
+            </div>
+            </center>
+        </div>
+      </footer>
+
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  </body>
+</html>
