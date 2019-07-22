@@ -24,7 +24,7 @@
                 <a class="nav-link" href="{% url 'home' %}"> Home <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{% url 'index_lojas' %}">Lojas</a>
+                <a class="nav-link" href="{% url 'index_lojas' %}">Restaurantes</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'contato' %}">Contato</a>
@@ -44,12 +44,16 @@
         </div>
     </nav>
     </container>
+
+    <div style="height: auto;  min-height: 600px;">
     {% block content %}
     
     {% endblock %}
+    </div>
+
 
     <!-- Footer -->
-  <footer class="fixed">
+  <footer class="absolute">
         <div class="container mt-5">
         <center>
           <div class="row">

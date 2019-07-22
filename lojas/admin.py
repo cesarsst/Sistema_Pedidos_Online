@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Lojas, Cardapio
+from .models import Lojas, Cardapio, Pedido
 # Register your models here.
 class LojasAdmin(admin.ModelAdmin):
 
@@ -20,8 +20,16 @@ class CardapioAdmin(admin.ModelAdmin):
     #Serve para buscar no admin pela caixa de busca
     search_fields = ['nome', 'categoria']
 
+class PedidoAdmin(admin.ModelAdmin):
+
+    #adiciona visualização rapida
+    list_display = ['id_pedido', 'id_user', 'id_prato', 'id_loja']
+
+    #Serve para buscar no admin pela caixa de busca
+    search_fields = ['id_user', 'id_loja']
 
 
 # Register your models here.
 admin.site.register(Lojas, LojasAdmin)
 admin.site.register(Cardapio, CardapioAdmin)
+admin.site.register(Pedido, PedidoAdmin)

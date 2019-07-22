@@ -2,35 +2,58 @@
 {% load static %}
 {% block content %}
 
-
+<h1 class="mt-5 ml-2">Cardápio</h1>
 
 {% if user.is_authenticated %}
-<h1 class="mt-5">Cardápio</h1>
 
-<center>
     <div class="container-fluid">
-        <div class="row mt-5">
-            {% for pratos in cardapios %}
-            <div class="col">
-              <div class="card" style="width: 10rem;">
-                {% if prato.image %}
-                    <a href=""> <img class="card-img-top" src="{{ prato.image.url }}"> </a>
-                {% else %}
-                    <a href=""><img class="card-img-top" src="{% static 'img/default.png' %}"></a>
-                {% endif %}
-                <div class="card-body">
-                  <h5 class="card-title">{{ prato.nome }}</h5>
-                            <p class="card-text">{{ prato.descricao|truncatechars:50 }}...</p>
+        <div class="row">
+            <div class="col-8">
+                <div class="row">
+                    {% for pratos in cardapios %}
+
+                        <div class="card" style="width: 18rem;">
+                            {% if loja.image %}
+                                <a href="{% url 'pedido' pratos.id page%}"> <img class="card-img-top" src="{{ pratos.image.url }}"> </a>
+                            {% else %}
+                                <a href="{% url 'pedido' pratos.id  page%}"><img class="card-img-top" src="{% static 'img/default.png' %}"></a>
+                            {% endif %}
+                            <div class="card-body">
+                              <h5 class="card-title">{{ pratos.nome }}</h5>
+                                        <p class="card-text">{{ pratos.about|truncatechars:50 }}...</p>
+                                <p class="card-text">{{ pratos.price }}...</p>
+                            </div>
+                        </div>
+
+                    {% endfor %}
                 </div>
-              </div>
             </div>
-            {% endfor %}
+
+            <div class="col-4">
+                <centeR><h4>Seu Carrinho</h4></centeR>
+                {%for pedido in pedidos %}
+
+                 {{ pedido.id_prato }} | R$: {{ pedido.id_prato.price }} | <a href="{% url 'del_pedido' pedido.id_pedido page %}">Excluir </a> <br>
+
+                {% endfor %}
+
+                <br>
+                <b>Total a pagar: R$: {{ total }}</b>
+
+                <center>
+                    <a href="{% url 'finalizar_compra' page %}"><button type="button" class="btn btn-primary mt-5">Finalizar Compra</button></a>
+                    <a href="{% url 'del_carrinho' page %}"><button type="button" class="btn btn-danger mt-5">Limpar Carrinho</button></a>
+                </center>
+
+            </div>
+
         </div>
     </div>
-</center>
 
 {% else %}
     <h5>Você precisa logar antes de acessar essa página!</h5>
 {% endif %}
+
+
 
 {% endblock %}

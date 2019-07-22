@@ -1,0 +1,18 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block content %}
+
+<h1 class="mt-5 ml-2">Pedido</h1>
+
+{% if user.is_authenticated %}
+    {% for pedido in pedidos %}
+        {{ pedido.id_prato }}
+    {% endfor %}
+
+{% else %}
+    <h5>Você precisa logar antes de acessar essa página!</h5>
+{% endif %}
+
+
+
+{% endblock %}
