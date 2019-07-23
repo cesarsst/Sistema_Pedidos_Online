@@ -1,0 +1,34 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block content %}
+
+
+<div class="container-fluid text-center">
+{% if user.is_authenticated %}
+
+{% if not data %}:
+    <h5>Você ainda não tem pedidos!</h5>
+{% endif %}
+
+
+{% for item in data %}
+<h1 class="mt-5 ml-2"></h1>
+<div class="card">
+    <h5 class="card-header">Vendedor: {{ item.pedidos.0 }} | Pedido n:{{ item.id }}</h5>
+    <div class="card-body">
+        {% for pedido in item.pedidos%}
+        <p class="card-text">{{ pedido.id_pedido }} | {{ pedido.total_comanda }}</p>
+        {% endfor %}
+        <p class="card-text">Total = R$: {{ item.sum }} </p>
+    </div>
+</div>
+{% endfor %}
+
+
+{% else %}
+    <h5>Você precisa logar antes de acessar essa página!</h5>
+{% endif %}
+
+</div>
+
+{% endblock %}

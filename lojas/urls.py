@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.urls import path
-from lojas.views import index_lojas, details, pedido, del_pedido, del_carrinho, finaliar_compra
+from lojas.views import index_lojas, details, pedido, del_pedido, del_carrinho, finaliar_compra, confirma_compra, acompanhar_pedidos
 from . import views
 
 urlpatterns = [
@@ -10,4 +10,6 @@ urlpatterns = [
     path('del/<int:id>/<slug:page>', del_pedido, name='del_pedido'),
     path('del/<slug:page>', del_carrinho, name='del_carrinho'),
     path('finalizar/<slug:page>', finaliar_compra, name='finalizar_compra'),
+    path('confirma/<slug:page>', confirma_compra, name='confirma_compra'),
+    path('acompanharPedido/', acompanhar_pedidos, name='acompanhar_pedidos'),
 ]

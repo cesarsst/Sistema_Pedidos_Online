@@ -2,17 +2,32 @@
 {% load static %}
 {% block content %}
 
+
+<div class="container-fluid text-center">
+{% if user.is_authenticated %}
+
 <h1 class="mt-5 ml-2">Pedido</h1>
 
-{% if user.is_authenticated %}
-    {% for pedido in pedidos %}
-        {{ pedido.id_prato }}
-    {% endfor %}
+
+{% for pedido in pedidos %}
+    {{ pedido.id_prato }} | R$:{{ pedido.id_prato.price }} <br>
+
+{% endfor %}
+
+<div class="mt-5">
+<b><h4>Total: {{ total }}</h4></b>
+</div>
+
+<center>
+    <a href="{% url 'confirma_compra' page %}"><button type="button" class="btn btn-primary mt-5">Confirmar Pedido </button></a>
+    <a href="{% url 'del_carrinho' page %}"><button type="button" class="btn btn-danger mt-5">Cancelar Pedido</button></a>
+</center>
+
 
 {% else %}
     <h5>Você precisa logar antes de acessar essa página!</h5>
 {% endif %}
 
-
+</div>
 
 {% endblock %}

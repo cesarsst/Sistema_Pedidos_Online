@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
-from .models import Lojas, Cardapio, CustomUser, Pedido
+from .models import Lojas, Cardapio, CustomUser, Pedido, Comanda
 from .forms import ComentarioLoja
 from django.shortcuts import redirect
 
@@ -60,7 +60,7 @@ def pedido(request, id, page):
 def del_pedido(request, id, page):
 
     id_loja = Lojas.objects.all().filter(slug=page)
-    p = Pedido.objects.all().filter(id_pedido=id, id_user=request.user.id, id_loja=id_loja[0])
+    p = Pedido.objects.all().filter(id_pedido=id, id_user=request.user.id, id_loja=id_loja[0], is_active=False)
 
     p.delete()
 
@@ -69,7 +69,7 @@ def del_pedido(request, id, page):
 def del_carrinho(request, page):
 
     id_loja = Lojas.objects.all().filter(slug=page)
-    p = Pedido.objects.all().filter(id_user=request.user.id, id_loja=id_loja[0])
+    p = Pedido.objects.all().filter(id_user=request.user.id, id_loja=id_loja[0], is_active=False)
 
     p.delete()
 
@@ -77,17 +77,96 @@ def del_carrinho(request, page):
 
 def finaliar_compra(request, page):
 
+    #Procura por pedidos com base na loja_slug, user,
     id_loja = Lojas.objects.all().filter(slug=page)
-    p = Pedido.objects.all().filter(id_user=request.user.id, id_loja=id_loja[0])
+    p = Pedido.objects.all().filter(id_user=request.user.id, id_loja=id_loja[0], is_active=False)
+
+
+    sum = 0
+    var = 0
+    for items in p:
+
+        comanda = Comanda()
+        comanda.id_pedido = items
+        comanda.total_comanda = items.id_prato.price
+        comanda.id_user = request.user
+        comanda.id_loja = id_loja[0]
+        comanda.save()
+
+        if var == 0:
+            # var auxilia
+            var = comanda.id
+            comanda.id_comanda = var
+            comanda.save()
+
+        else:
+            comanda.id_comanda = var
+            comanda.save()
+
+        sum += comanda.id_pedido.id_prato.price
+
+    data = {
+        'pedidos': p,
+        'total': sum,
+        'page': page,
+    }
+
+    template_name = 'lojas/finalizar_compra.html'
+    return render(request, template_name, data)
+
+def confirma_compra(request, page):
+
+    # Procura por pedidos com base na loja_slug, user,
+    id_loja = Lojas.objects.all().filter(slug=page)
+    p = Pedido.objects.all().filter(id_user=request.user.id, id_loja=id_loja[0], is_active=False)
 
     for items in p:
         items.is_active = True
         items.save()
 
+    return redirect('index_lojas')
 
-    data = {
-        'pedidos': p,
+
+def acompanhar_pedidos(request):
+    user = request.user
+
+    comandas = Comanda.objects.all().filter(id_user=user.id)
+
+    list = []
+    atual = 0
+    for comanda in comandas:
+       if atual == 0:
+         atual = comanda.id_comanda
+         list.append(atual)
+       else:
+           if comanda.id_comanda == atual:
+                pass
+           else:
+               atual = comanda.id_comanda
+               list.append(atual)
+
+
+    context = {}
+    pedidos = []
+    data = []
+
+    e = {
+        'data':data
     }
 
-    template_name = 'lojas/finalizar_compra.html'
-    return render(request, template_name, data)
+    for item in list:
+        pedidos.clear()
+        context['id'] = item
+        sum = 0
+        for comanda in comandas:
+            if comanda.id_comanda == item:
+                pedidos.append(comanda)
+                sum += comanda.total_comanda
+        context['sum'] = sum
+        context['pedidos'] = pedidos.copy()
+        data.append(context.copy())
+
+
+    template_name = 'lojas/acompanhar_pedidos.html'
+
+    return render(request, template_name, e)

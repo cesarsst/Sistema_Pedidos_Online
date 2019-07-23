@@ -75,13 +75,17 @@ class Cardapio(models.Model):
 
 
 class Pedido(models.Model):
-    id_pedido = models.AutoField(primary_key=True)
+    id_pedido = models.AutoField('Pedido', primary_key=True)
     id_user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='pedido')
     id_prato = models.ForeignKey(Cardapio, on_delete=models.CASCADE, related_name='pedido')
     id_loja = models.ForeignKey(Lojas, on_delete=models.CASCADE, related_name='pedido')
-    is_active = models.BooleanField(default=False)
+    is_active = models.BooleanField('Ativo', default=False)
+
+
     objects = models.Manager()
 
+    def __str__(self):
+        return str(self.id_prato)
 
     class Meta:
         # Define como irá aparecer em formularios e no admin
@@ -90,3 +94,24 @@ class Pedido(models.Model):
 
         # Ordena de forma alfabetica (para inverso colocar -)
         ordering = ['id_pedido']
+
+class Comanda(models.Model):
+    id_comanda = models.IntegerField(max_length=5, default=0)
+    id_pedido = models.ForeignKey(Pedido, on_delete=models.CASCADE, related_name='comanda')
+    start_at = models.DateTimeField(auto_now_add=True)
+    total_comanda = models.DecimalField(max_length=None, decimal_places=2, max_digits=5)
+    id_user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='comanda')
+    id_loja = models.ForeignKey(Lojas, on_delete=models.CASCADE, related_name='comanda')
+
+    objects = models.Manager()
+
+    def __str__(self):
+        return self.id_loja.nome
+
+    class Meta:
+        # Define como irá aparecer em formularios e no admin
+        verbose_name = 'Comanda'
+        verbose_name_plural = 'Comandas'
+
+        # Ordena de forma alfabetica (para inverso colocar -)
+        ordering = ['id_loja']
