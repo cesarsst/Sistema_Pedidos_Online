@@ -12,6 +12,8 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     date_joined = models.DateTimeField(default=timezone.now)
+
+    #Level -> 0:Usuario comum, 1: Dono de loja, 2:admin
     level = models.DecimalField(max_digits=2, max_length=1, decimal_places=0, default=0)
 
     USERNAME_FIELD = 'email'

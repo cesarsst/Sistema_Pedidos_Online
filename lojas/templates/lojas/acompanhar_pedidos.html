@@ -12,16 +12,66 @@
 
 
 {% for item in data %}
+{% if item.user_view == 0 %}
 <h1 class="mt-5 ml-2"></h1>
 <div class="card">
-    <h5 class="card-header">Vendedor: {{ item.pedidos.0 }} | Pedido n:{{ item.id }}</h5>
+    <h5 class="card-header">
+
+        <div class="row justify-content-center">
+                    <div class="col">
+
+                    </div>
+                    <div class="col">
+                        Vendedor: {{ item.pedidos.0 }} | Pedido n:{{ item.id }}
+                    </div>
+                    <div class="col justify-right">
+                        {% if item.status >= 3 %}
+                        <a href="{% url 'desativa_pedidos' item.id %}"><button type="button" class="btn btn-danger justify-right">X</button></a>
+                        {% endif %}
+                    </div>
+        </div>
+
+
+    </h5>
     <div class="card-body">
         {% for pedido in item.pedidos%}
-        <p class="card-text">{{ pedido.id_pedido }} | {{ pedido.total_comanda }}</p>
+        <p class="card-text">
+
+            <center>
+                <div class="row justify-content-center">
+                    <div class="col-4">
+                        Produto: {{ pedido.id_pedido }}
+                    </div>
+                    <div class="col-4">
+                        Valor: R$:{{ pedido.total_comanda }}
+                    </div>
+                </div>
+            </center>
+
+        </p>
         {% endfor %}
-        <p class="card-text">Total = R$: {{ item.sum }} </p>
+        <p class="card-text"><b>Total  R$: {{ item.sum }} </b></p>
+
+        Status:
+        {% if item.status == 0 %}
+             <a class="badge badge-primary">Processando</a>
+        {% endif %}
+        {% if item.status == 1 %}
+             <a class="badge badge-success">Confirmado</a>
+        {% endif %}
+        {% if item.status == 2 %}
+             <a class="badge badge-warning">Saiu para entrega</a>
+        {% endif %}
+        {% if item.status == 3 %}
+             <a class="badge badge-danger">Cancelado</a>
+        {% endif %}
+        {% if item.status == 4 %}
+             <a class="badge badge-secondary">Finalizado</a>
+        {% endif %}
+
     </div>
 </div>
+{% endif %}
 {% endfor %}
 
 

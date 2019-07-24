@@ -35,6 +35,8 @@ class Lojas(models.Model):
     image = models.ImageField(upload_to='media/images', verbose_name='Imagem',
                               null=True, blank=True)
 
+    useradmin = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='lojaadm')
+
     objects = models.Manager()
     objectsSearch = LojasManager()
 
@@ -96,12 +98,18 @@ class Pedido(models.Model):
         ordering = ['id_pedido']
 
 class Comanda(models.Model):
-    id_comanda = models.IntegerField(max_length=5, default=0)
+    id_comanda = models.IntegerField(default=0)
     id_pedido = models.ForeignKey(Pedido, on_delete=models.CASCADE, related_name='comanda')
     start_at = models.DateTimeField(auto_now_add=True)
     total_comanda = models.DecimalField(max_length=None, decimal_places=2, max_digits=5)
     id_user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='comanda')
     id_loja = models.ForeignKey(Lojas, on_delete=models.CASCADE, related_name='comanda')
+
+    # Status-> 0:Processando, 1:Confirmado, 2: Saiu para entrega, 3:Cancelado, 4:Finalizado
+    status = models.IntegerField('Status', default=0)
+
+    #user_view-> 0: Visualizar, 1:Não-visualizar
+    user_view = models.IntegerField('Status', default=0)
 
     objects = models.Manager()
 

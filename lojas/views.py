@@ -124,14 +124,16 @@ def confirma_compra(request, page):
         items.is_active = True
         items.save()
 
-    return redirect('index_lojas')
+    return redirect('acompanhar_pedidos')
 
 
 def acompanhar_pedidos(request):
     user = request.user
 
+    # Seleciona comandas pertencentes ao usuario
     comandas = Comanda.objects.all().filter(id_user=user.id)
 
+    # Armazena as IDs (sem repetição) das comandas em 'list'
     list = []
     atual = 0
     for comanda in comandas:
@@ -148,12 +150,9 @@ def acompanhar_pedidos(request):
 
     context = {}
     pedidos = []
-    data = []
+    aux = []
 
-    e = {
-        'data':data
-    }
-
+    # Para cada Id de comanda em list, armazena os respectivos dados dos pedidos em 'Aux'
     for item in list:
         pedidos.clear()
         context['id'] = item
@@ -162,11 +161,28 @@ def acompanhar_pedidos(request):
             if comanda.id_comanda == item:
                 pedidos.append(comanda)
                 sum += comanda.total_comanda
+                status = comanda.status
+                user_view = comanda.user_view
         context['sum'] = sum
+        context['status'] = status
+        context['user_view'] = user_view
         context['pedidos'] = pedidos.copy()
-        data.append(context.copy())
+        aux.append(context.copy())
 
+    data = {
+        'data': aux
+    }
 
     template_name = 'lojas/acompanhar_pedidos.html'
 
-    return render(request, template_name, e)
+    return render(request, template_name, data)
+
+def desativa_pedidos(request, id):
+
+    comandas = Comanda.objects.all().filter(id_comanda=id)
+
+    for items in comandas:
+        items.user_view = 1
+        items.save()
+
+    return redirect('acompanhar_pedidos')
