@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 import dj_database_url
 import os
+import django_heroku
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -125,7 +126,11 @@ USE_TZ = True
 
 MEDIA_ROOT = os.path.join(BASE_DIR, '', 'media')
 MEDIA_URL = '/media/'
+
+PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(PROJECT_ROOT, 'static')
+
 
 #Modelo de usuario novo
 AUTH_USER_MODEL = 'users.CustomUser'
@@ -135,7 +140,7 @@ LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'home'
 
 # Configure Django App for Heroku.
-import django_heroku
+
 django_heroku.settings(locals())
 
 DATABASES['default'] = dj_database_url.config()
