@@ -1,0 +1,104 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block content %}
+
+<h1 class="mt-5 ml-2">Pedidos Efetuados</h1>
+
+{% if user.is_authenticated %}
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-8">
+                <div class="row mt-5">
+
+                    <div class="col-md-auto mt-2">
+                    {% for comanda in comandas %}
+
+                        <div class="card text-center" style="width: 18rem;">
+                          <div class="card-body ">
+                            <h5 class="card-title">Special title treatment</h5>
+                            <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                            <a href="#" class="btn btn-primary mb-5" data-toggle="modal" data-target="#modalEndereco">Ver Endereço</a><br>
+
+                              <div class="modal fade" id="modalEndereco" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                  <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                      <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Título do modal</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                                          <span aria-hidden="true">&times;</span>
+                                        </button>
+                                      </div>
+                                      <div class="modal-body">
+                                        ...
+                                      </div>
+                                      <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                                      </div>
+                                    </div>
+                                  </div>
+                              </div>
+
+
+                            <div class="row">
+                                <div class="col">
+                                    <a href=""><img src="{% static 'img/botao1.jpg' %}" alt="..." class="rounded-circle"></a><br>
+                                </div>
+                                <div class="col">
+                                    <a href=""><img src="{% static 'img/botao2.jpg' %}" alt="..." class="rounded-circle"></a>
+                                </div>
+                                <div class="col">
+                                    <a href=""><img src="{% static 'img/botao3.jpg' %}" alt="..." class="rounded-circle"></a>
+                                </div>
+                            </div>
+
+                              <div class="row text-center">
+                                    <div class="col text-left">
+                                        Confirma
+                                    </div>
+                                    <div class="col text-center">
+                                        Entrega
+                                    </div>
+                                    <div class="col text-rigth">
+                                        Cancelar
+                                    </div>
+                              </div>
+
+                              <div class="row">
+                                  <div class="col">
+                                      <button type="button" class="btn btn-secondary mt-5">Pedido Entregado</button>
+                                  </div>
+                              </div>
+
+                          </div>
+                        </div>
+
+                    {% endfor %}
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="col-4">
+                <center><h4>Menu</h4>
+
+                           <center>
+
+                               <a href=""><button type="button" class="btn btn-primary " onclick="this.disabled = true;">Finalizar Compra</button></a><br>
+
+                               <a href=""><button type="button" class="btn btn-danger mt-3" onclick="this.disabled = true;">Limpar Carrinho</button></a>
+
+                           </center>
+                </center>
+            </div>
+
+        </div>
+    </div>
+
+{% else %}
+    <h5>Você precisa logar antes de acessar essa página!</h5>
+{% endif %}
+
+
+
+{% endblock %}

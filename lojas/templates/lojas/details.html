@@ -9,9 +9,9 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-8">
-                <div class="row">
+                <div class="row mt-5">
                     {% for pratos in cardapios %}
-
+                    <div class="col-md-auto mt-2">
                         <div class="card" style="width: 18rem;">
                             {% if loja.image %}
                                 <a href="{% url 'pedido' pratos.id page%}"> <img class="card-img-top" src="{{ pratos.image.url }}"> </a>
@@ -24,7 +24,7 @@
                                 <p class="card-text">{{ pratos.price }}...</p>
                             </div>
                         </div>
-
+                    </div>
                     {% endfor %}
                 </div>
             </div>
@@ -41,8 +41,8 @@
                 <b>Total a pagar: R$: {{ total }}</b>
 
                 <center>
-                    <a href="{% url 'finalizar_compra' page %}"><button type="button" class="btn btn-primary mt-5">Finalizar Compra</button></a>
-                    <a href="{% url 'del_carrinho' page %}"><button type="button" class="btn btn-danger mt-5">Limpar Carrinho</button></a>
+                    <a href="{% url 'finalizar_compra' page %}"><button type="button" class="btn btn-primary mt-5" onclick="this.disabled = true;">Finalizar Compra</button></a>
+                    <a href="{% url 'del_carrinho' page %}"><button type="button" class="btn btn-danger mt-5" onclick="this.disabled = true;">Limpar Carrinho</button></a>
                 </center>
 
             </div>

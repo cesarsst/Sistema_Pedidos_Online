@@ -19,8 +19,10 @@
 </div>
 
 <center>
-    <a href="{% url 'confirma_compra' page %}"><button type="button" class="btn btn-primary mt-5">Confirmar Pedido </button></a>
-    <a href="{% url 'del_carrinho' page %}"><button type="button" class="btn btn-danger mt-5">Cancelar Pedido</button></a>
+
+    <a href="{% url 'confirma_compra' page %}"><button type="button" class="btn btn-primary mt-5" onclick="this.disabled = true;">Confirmar Pedido </button></a>
+    <a href="{% url 'del_carrinho' page %}"><button type="button" class="btn btn-danger mt-5" onclick="this.disabled = true;">Cancelar Pedido</button></a>
+
 </center>
 
 

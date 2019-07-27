@@ -31,11 +31,12 @@ def details(request, slug):
     for pedido in pedidos:
         sum = sum + pedido.id_prato.price
 
+
     data = {
         'page': slug,
         'cardapios': cad,
         'pedidos': pedidos,
-        'total': sum
+        'total': sum,
     }
 
     template_name = 'lojas/details.html'
@@ -186,3 +187,21 @@ def desativa_pedidos(request, id):
         items.save()
 
     return redirect('acompanhar_pedidos')
+
+
+def painel_loja(request):
+
+    # Buscando loja pertencente ao usuario
+    user_id = request.user.id
+    perfil = Lojas.objects.all().filter(useradmin=user_id)[0].id
+
+    # Buscar comandas relacionada a loja
+    comandas = Comanda.objects.all().filter(id_loja=perfil)
+
+    data = {
+        'comandas': comandas,
+    }
+
+    template_name = 'lojas/painel_loja.html'
+
+    return render(request, template_name, data)
